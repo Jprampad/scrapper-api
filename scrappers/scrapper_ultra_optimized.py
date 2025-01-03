@@ -1,3 +1,11 @@
+import sys
+from pathlib import Path
+
+# Añadir el directorio raíz al path
+root_dir = Path(__file__).resolve().parent.parent
+sys.path.append(str(root_dir))
+
+from api.core.config import settings
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -10,8 +18,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import logging
 from typing import List, Dict, Optional
-import sys
-from pathlib import Path
 import asyncio
 import aiohttp
 from functools import lru_cache
@@ -19,8 +25,6 @@ import uvloop
 from aiohttp import ClientTimeout
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-sys.path.append(str(Path(__file__).parent.parent))  # Agregar directorio raíz al path
-from config import MAX_TIMEOUT
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +33,7 @@ class UltraOptimizedScraper:
         self.partial_results = []
         self.should_stop = False
         self.start_time = None
-        self.timeout = MAX_TIMEOUT
+        self.timeout = settings.MAX_TIMEOUT
         self.url_cache = set()
         self.results_cache = {}
         self.category_urls = {
@@ -249,16 +253,11 @@ class UltraOptimizedScraper:
                     logger.info(f"Timeout en categoría {category}. Retornando {len(self.partial_results)} resultados parciales")
                     return self.partial_results
         except Exception as e:
-            self.should_stop = True
+            self.is_partial = True
             logger.error(f"Error en scraping: {e}")
             return self.partial_results
 
-    def scrape(self, category: str = None) -> Optional[List[Dict]]:
-        """Método principal para iniciar el scraping"""
-        self.partial_results = []
-        self.should_stop = False
-        self.start_time = time.time()
-
+    def scrape(self, category: str) -> Optional[List[Dict]]:
         try:
             uvloop.install()
         except Exception:
@@ -269,6 +268,10 @@ class UltraOptimizedScraper:
         except asyncio.TimeoutError:
             logger.info(f"Timeout en scrape. Retornando {len(self.partial_results)} resultados parciales")
             return self.partial_results
+
+def scrape_xepelin_blog(category: str) -> Optional[List[Dict]]:
+    scraper = UltraOptimizedScraper()
+    return scraper.scrape(category)
 
 if __name__ == "__main__":
     import argparse
@@ -293,8 +296,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         '-t', '--timeout', 
-        type=int,
-        help='Tiempo máximo de ejecución en segundos'
+        type=int, 
+        default=settings.MAX_TIMEOUT,
+        help=f'Tiempo máximo de ejecución en segundos (default: {settings.MAX_TIMEOUT})'
     )
 
     args = parser.parse_args()
@@ -303,8 +307,7 @@ if __name__ == "__main__":
         # Iniciar el scraper y registrar tiempo de inicio
         start_time = time.time()
         scraper = UltraOptimizedScraper()
-        if args.timeout is not None:
-            scraper.timeout = args.timeout
+        scraper.timeout = args.timeout
         
         # Convertir 'todas' a 'todas las categorias' para mantener compatibilidad
         category = 'todas las categorias' if args.category == 'todas' else args.category
@@ -318,6 +321,7 @@ if __name__ == "__main__":
         
         # Preparar los resultados
         if results:
+            # Crear estructura del JSON
             output_data = {
                 "metadata": {
                     "fecha_ejecucion": datetime.now().isoformat(),
@@ -331,6 +335,7 @@ if __name__ == "__main__":
                 "articulos": results
             }
 
+            # Si se procesaron todas las categorías, agregar estadísticas
             if args.category == 'todas':
                 category_counts = {}
                 for article in results:
@@ -338,10 +343,12 @@ if __name__ == "__main__":
                     category_counts[cat] = category_counts.get(cat, 0) + 1
                 output_data["metadata"]["estadisticas_categorias"] = category_counts
                 
+                # Mostrar estadísticas en consola
                 logger.info("\nDesglose por categoría:")
                 for cat, count in category_counts.items():
                     logger.info(f"{cat}: {count} artículos")
 
+            # Guardar resultados en JSON
             category_name = args.category.replace(' ', '_')
             filename = f"xepelin_articles_{category_name}_{int(time.time())}.json"
             filepath = f"../outputs/{filename}"

@@ -1,3 +1,14 @@
+import sys
+from pathlib import Path
+
+# Añadir el directorio raíz al path
+root_dir = Path(__file__).resolve().parent.parent
+sys.path.append(str(root_dir))
+
+# Ahora podemos importar desde api
+from api.core.config import settings
+
+# Resto de imports
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -10,10 +21,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import logging
 from typing import List, Dict, Optional
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))  # Agregar directorio raíz al path
-from config import MAX_TIMEOUT
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +29,7 @@ class BaseScraper:
         self.partial_results = []
         self.should_stop = False
         self.start_time = None
-        self.timeout = MAX_TIMEOUT
+        self.timeout = settings.MAX_TIMEOUT
         self.category_urls = {
             'pymes': 'pymes',
             'corporativos': 'corporativos',
@@ -241,8 +248,8 @@ if __name__ == "__main__":
     parser.add_argument(
         '-t', '--timeout', 
         type=int, 
-        default=MAX_TIMEOUT,
-        help=f'Tiempo máximo de ejecución en segundos (default: {MAX_TIMEOUT})'
+        default=settings.MAX_TIMEOUT,
+        help=f'Tiempo máximo de ejecución en segundos (default: {settings.MAX_TIMEOUT})'
     )
 
     args = parser.parse_args()
