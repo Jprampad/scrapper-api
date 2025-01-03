@@ -4,7 +4,7 @@ from pathlib import Path
 
 class Settings(BaseSettings):
 
-    MAX_TIMEOUT = 60   
+    MAX_TIMEOUT: int = 60   
 
     VALID_CATEGORIES: Set[str] = {
         "todas las categorias",
