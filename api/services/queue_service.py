@@ -54,7 +54,7 @@ class QueueService:
 
                     # Ejecutar con timeout estricto
                     try:
-                        results = await asyncio.wait_for(do_scraping(), timeout=59.0)  # Timeout estricto
+                        results = await asyncio.wait_for(do_scraping(), timeout=settings.MAX_TIMEOUT - 1)  # Timeout estricto
                         job.results = results if results else []
                         job.status = "completed"
                         

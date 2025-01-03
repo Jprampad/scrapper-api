@@ -4,9 +4,8 @@ from pathlib import Path
 
 class Settings(BaseSettings):
     # Configuración general
-    MAX_TIMEOUT: int = 300
+    MAX_TIMEOUT: int = 60
     MAX_WORKERS: int = 3
-    REQUEST_TIMEOUT: int = 30  # Aumentar el timeout para las peticiones HTTP
     
     # Configuración de scraping
     MAX_RETRIES: int = 3
