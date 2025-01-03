@@ -169,3 +169,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+/html/
+
+*.json
+
+benchmark_results/
+chromedriver-linux64/
+outputs/
