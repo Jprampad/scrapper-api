@@ -3,15 +3,9 @@ from pydantic_settings import BaseSettings
 from pathlib import Path
 
 class Settings(BaseSettings):
-    # Configuración general
-    MAX_TIMEOUT: int = 60
-    MAX_WORKERS: int = 3
-    
-    # Configuración de scraping
-    MAX_RETRIES: int = 3
-    RETRY_DELAY: int = 1
-    
-    # Categorías válidas
+
+    MAX_TIMEOUT = 60   
+
     VALID_CATEGORIES: Set[str] = {
         "todas las categorias",
         "pymes",
