@@ -12,12 +12,13 @@ import logging
 from typing import List, Dict, Optional
 import sys
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.path.append(str(Path(__file__).parent.parent))  # Agregar directorio raíz al path
 from config import MAX_TIMEOUT
 
 logger = logging.getLogger(__name__)
 
-class BaseScraper:
+class OptimizedScraper:
     def __init__(self):
         self.partial_results = []
         self.should_stop = False
@@ -36,13 +37,6 @@ class BaseScraper:
         }
         self.setup_driver()
 
-    def check_timeout(self) -> bool:
-        """Verifica si se ha excedido el tiempo máximo"""
-        if self.start_time and time.time() - self.start_time >= self.timeout:
-            self.should_stop = True
-            return True
-        return False
-
     def setup_driver(self):
         """Configura el driver de Chrome con las opciones necesarias"""
         chrome_options = webdriver.ChromeOptions()
@@ -54,6 +48,13 @@ class BaseScraper:
         chrome_options.add_argument(f'user-agent={self.headers["User-Agent"]}')
         self.chrome_options = chrome_options
 
+    def check_timeout(self) -> bool:
+        """Verifica si se ha excedido el tiempo máximo"""
+        if self.start_time and time.time() - self.start_time >= self.timeout:
+            self.should_stop = True
+            return True
+        return False
+
     def normalize_text(self, text: str) -> str:
         """Normaliza el texto eliminando acentos y convirtiendo a minúsculas"""
         normalized = unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('ASCII')
@@ -63,9 +64,44 @@ class BaseScraper:
         """Obtiene la URL correspondiente a una categoría"""
         normalized_category = self.normalize_text(category)
         for cat, url_suffix in self.category_urls.items():
-            if cat == normalized_category:
+            if self.normalize_text(cat) == normalized_category:
                 return f"https://xepelin.com/blog/{url_suffix}"
         return None
+
+    def get_article_details(self, url: str) -> Optional[Dict]:
+        """Obtiene los detalles de un artículo específico"""
+        if self.check_timeout():
+            return None
+            
+        try:
+            response = requests.get(url, headers=self.headers, timeout=5)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            title = soup.find('h1', {'class': 'ArticleSingle_title__0DNjm'}).text.strip()
+            category = soup.find('a', {'class': 'text-primary-main'}).text.strip()
+            
+            author_section = soup.find('div', {'class': 'flex gap-2'})
+            author_info = author_section.text.strip().split('|')
+            author_name = author_info[0].strip()
+            author_position = author_info[1].strip()
+            
+            reading_time = soup.find('div', {'class': 'Text_body__snVk8'}).text.strip()
+            
+            article = {
+                'Titular': title,
+                'Categoría': category,
+                'Autor': author_name,
+                'Cargo': author_position,
+                'Tiempo de Lectura': reading_time,
+                'URL': url
+            }
+            self.partial_results.append(article)
+            return article
+            
+        except Exception as e:
+            logger.error(f"Error obteniendo detalles del artículo {url}: {e}")
+            return None
 
     def get_all_articles(self, url: str) -> Optional[str]:
         """Obtiene el contenido HTML de todos los artículos de una página"""
@@ -76,26 +112,25 @@ class BaseScraper:
 
             logger.info(f"Accediendo a: {url}")
             driver = webdriver.Chrome(options=self.chrome_options)
-            driver.implicitly_wait(5) 
+            driver.implicitly_wait(5)
             driver.get(url)
-            time.sleep(2) 
-            
+            time.sleep(2)
+
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(1) 
+            time.sleep(1)
 
             articles_loaded = 0
             last_height = driver.execute_script("return document.body.scrollHeight")
 
-            while not self.check_timeout(): 
+            while not self.check_timeout():
                 try:
-                    # Apreta el botón de "Cargar más" para obtener todos los artículos
-                    load_more = WebDriverWait(driver, 5).until( 
+                    load_more = WebDriverWait(driver, 5).until(
                         EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Cargar más')]"))
                     )
                     driver.execute_script("arguments[0].scrollIntoView();", load_more)
                     load_more.click()
                     articles_loaded += 1
-                    
+
                     time.sleep(1)
                     new_height = driver.execute_script("return document.body.scrollHeight")
                     if new_height == last_height:
@@ -118,43 +153,8 @@ class BaseScraper:
             if driver:
                 driver.quit()
 
-    def get_article_details(self, url: str) -> Optional[Dict]:
-        """Obtiene los detalles de un artículo específico"""
-        if self.check_timeout():
-            return None
-            
-        try:
-            response = requests.get(url, headers=self.headers, timeout=5)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.text, 'html.parser')
-
-            # Datos del artículo
-            title = soup.find('h1', {'class': 'ArticleSingle_title__0DNjm'}).text.strip()
-            category = soup.find('a', {'class': 'text-primary-main'}).text.strip()
-            reading_time = soup.find('div', {'class': 'Text_body__snVk8'}).text.strip()
-            
-            # Datos del autor
-            author_section = soup.find('div', {'class': 'flex gap-2'})
-            author_info = author_section.text.strip().split('|')
-
-            article_data = {
-                'Titular': title,
-                'Categoría': category,
-                'URL': url,
-                'Autor': author_info[0].strip(),
-                'Cargo': author_info[1].strip(),
-                'Tiempo de Lectura': reading_time
-            }
-
-            self.partial_results.append(article_data)
-            return article_data
-
-        except Exception as e:
-            logger.error(f"Error obteniendo detalles del artículo {url}: {e}")
-            return None
-
     def process_category(self, category: str) -> List[Dict]:
-        """Procesa una categoría específica"""
+        """Procesa una categoría específica usando ThreadPoolExecutor"""
         if self.check_timeout():
             return self.partial_results
 
@@ -172,22 +172,28 @@ class BaseScraper:
             article_cards = soup.find_all('div', {'class': 'BlogArticle_box__JyD1X'})
             logger.info(f"Encontrados {len(article_cards)} artículos en {category}")
 
-            for i, card in enumerate(article_cards, 1):
-                if self.check_timeout():
-                    logger.info(f"Timeout alcanzado después de procesar {i-1} artículos")
-                    return self.partial_results
+            with ThreadPoolExecutor(max_workers=5) as executor:
+                futures = []
+                for card in article_cards:
+                    if self.check_timeout():
+                        executor.shutdown(wait=False)
+                        return self.partial_results
 
-                try:
                     article_url = card.find('a')['href']
                     if not article_url.startswith('http'):
                         article_url = f"https://xepelin.com{article_url}"
                     
-                    article_data = self.get_article_details(article_url)
-                    if article_data:
-                        logger.info(f"Artículo {i}/{len(article_cards)} procesado")
+                    futures.append(executor.submit(self.get_article_details, article_url))
 
-                except Exception as e:
-                    logger.error(f"Error procesando artículo {i} de {category}: {e}")
+                for future in as_completed(futures):
+                    if self.check_timeout():
+                        executor.shutdown(wait=False)
+                        return self.partial_results
+
+                    try:
+                        future.result()
+                    except Exception as e:
+                        logger.error(f"Error procesando artículo en {category}: {e}")
 
             return self.partial_results
 
@@ -197,14 +203,14 @@ class BaseScraper:
 
     def scrape(self, category: str = None) -> List[Dict]:
         """Método principal para iniciar el scraping"""
-        self.partial_results = []  # Reset results
+        self.partial_results = []
         self.should_stop = False
-        self.start_time = time.time()  # Iniciar el temporizador
-        
+        self.start_time = time.time()
+
         try:
             if category and self.normalize_text(category) == "todas las categorias":
                 for cat in self.category_urls.keys():
-                    if self.check_timeout(): 
+                    if self.check_timeout():
                         break
                     logger.info(f"Procesando categoría: {cat}")
                     self.process_category(cat)
@@ -229,7 +235,7 @@ if __name__ == "__main__":
     )
 
     # Crear el parser de argumentos
-    parser = argparse.ArgumentParser(description='Ejecutar web scraping de Xepelin Blog')
+    parser = argparse.ArgumentParser(description='Ejecutar web scraping optimizado de Xepelin Blog')
     parser.add_argument(
         '-c', '--category', 
         type=str, 
@@ -250,14 +256,14 @@ if __name__ == "__main__":
     try:
         # Iniciar el scraper y registrar tiempo de inicio
         start_time = time.time()
-        scraper = BaseScraper()
+        scraper = OptimizedScraper()
         scraper.timeout = args.timeout
         
         # Convertir 'todas' a 'todas las categorias' para mantener compatibilidad
         category = 'todas las categorias' if args.category == 'todas' else args.category
         
         # Ejecutar el scraping
-        logger.info(f"Iniciando scraping para categoría: {category}")
+        logger.info(f"Iniciando scraping optimizado para categoría: {category}")
         results = scraper.scrape(category)
         
         # Calcular tiempo de ejecución
