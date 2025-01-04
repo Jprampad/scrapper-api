@@ -1,8 +1,8 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from typing import List, Dict, Any
-from api.core.logging import logger
-from api.models.jobs import ScrapingJob
+from core.logging import logger
+from models.jobs import ScrapingJob
 from pathlib import Path
 import time
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -11,9 +11,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 class GoogleSheetsService:
     def __init__(self):
+        self._executor = ThreadPoolExecutor(max_workers=3)
         self.client = self._setup_client()
         self.spreadsheet_id = '1wlaiJhF07N0GAHYUi2Iq0wtd3uY_w4xHbbDbqX1FTMk'
-        self._executor = ThreadPoolExecutor(max_workers=3)
 
     def _setup_client(self) -> gspread.Client:
         """Inicializa el cliente de Google Sheets con las credenciales"""
@@ -23,7 +23,13 @@ class GoogleSheetsService:
             'https://www.googleapis.com/auth/drive'
         ]
         
-        credentials_path = Path('api/xepelin-parte-2-c6ef5d54450c.json')
+        credentials_path = Path('xepelin-parte-2-c6ef5d54450c.json')
+        
+        if not credentials_path.exists():
+            raise FileNotFoundError(
+                f"Archivo de credenciales no encontrado en: {credentials_path.absolute()}"
+            )
+        
         credentials = Credentials.from_service_account_file(
             str(credentials_path),
             scopes=scopes

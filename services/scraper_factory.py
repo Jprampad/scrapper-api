@@ -1,5 +1,5 @@
 from typing import Union
-from api.models.requests import ScraperModel
+from models.requests import ScraperModel
 from scrappers.scrapper import BaseScraper
 from scrappers.scrapper_optimized import OptimizedScraper
 from scrappers.scrapper_ultra_optimized import UltraOptimizedScraper

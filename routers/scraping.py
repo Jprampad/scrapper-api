@@ -1,12 +1,12 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from typing import Dict
 import uuid
-from api.models.requests import ScrapingRequest, ScraperModel
-from api.models.responses import ScrapingResponse, ArticleResponse
-from api.models.jobs import ScrapingJob
-from api.services.queue_service import queue_service
-from api.core.config import settings
-from api.core.exceptions import handle_scraper_exception
+from models.requests import ScrapingRequest
+from models.responses import ScrapingResponse, ArticleResponse
+from services.queue_service import queue_service
+from core.config import settings
+from core.exceptions import handle_scraper_exception
+from models.jobs import ScrapingJob
 
 router = APIRouter(prefix="/scraping", tags=["scraping"])
 

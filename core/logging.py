@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from api.core.config import settings
+from core.config import settings
 
 def setup_logging() -> logging.Logger:
     """
