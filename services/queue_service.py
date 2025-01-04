@@ -3,13 +3,13 @@ from typing import Dict, Optional, List, Any
 import asyncio
 from asyncio import Semaphore, TimeoutError
 import time
-from api.core.logging import logger
-from api.models.jobs import ScrapingJob
-from api.models.requests import ScraperModel
-from api.services.scraper_factory import ScraperFactory
-from api.core.config import settings
-from api.core.notifications import notify_job_completion
-from api.services.sheets_service import sheets_service
+from core.logging import logger
+from models.jobs import ScrapingJob
+from models.requests import ScraperModel
+from services.scraper_factory import ScraperFactory
+from core.config import settings
+from core.notifications import notify_job_completion
+from services.sheets_service import sheets_service
 
 class QueueService:
     def __init__(self):

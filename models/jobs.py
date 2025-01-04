@@ -1,7 +1,7 @@
 from datetime import datetime
 import time
 from typing import Optional, List, Dict, Any
-from api.models.requests import ScraperModel
+from models.requests import ScraperModel
 from pydantic import EmailStr
 
 class ScrapingJob:

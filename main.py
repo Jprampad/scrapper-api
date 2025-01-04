@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from api.routers import scraping
-from api.core.logging import setup_logging
+from routers import scraping
+from core.logging import setup_logging
 
 # Configurar logging
 setup_logging()

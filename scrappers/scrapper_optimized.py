@@ -6,7 +6,7 @@ root_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(root_dir))
 
 # Ahora podemos importar desde api
-from api.core.config import settings
+from core.config import settings
 
 import requests
 from bs4 import BeautifulSoup

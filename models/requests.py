@@ -1,11 +1,11 @@
-from enum import Enum
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+from enum import Enum
 
 class ScraperModel(str, Enum):
-    BASE = "base"           # Síncrono
-    OPTIMIZED = "optimized" # Síncrono
-    ULTRA = "ultra"        # Asíncrono
+    BASE = "base"
+    OPTIMIZED = "optimized"
+    ULTRA = "ultra"
 
 class ScrapingRequest(BaseModel):
     """Modelo de request para scraping"""
