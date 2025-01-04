@@ -9,6 +9,7 @@ from api.models.requests import ScraperModel
 from api.services.scraper_factory import ScraperFactory
 from api.core.config import settings
 from api.core.notifications import notify_job_completion
+from api.services.sheets_service import sheets_service
 
 class QueueService:
     def __init__(self):
@@ -82,13 +83,17 @@ class QueueService:
                     # Forzar verificación de timeout
                     self._force_partial_if_timeout(job)
                     
-                    # Si hay resultados, notificar completación
+                    # Si hay resultados, guardar en Google Sheets y notificar
                     if job.results and len(job.results) > 0:
+                        # Save to Google Sheets
+                        sheets_service.save_job_results(job)
+                        
+                        # Notify completion
                         filename = f"xepelin_{job.category}_{job.model}_{int(time.time())}.json"
                         notify_job_completion(
                             job_id=job.job_id,
                             filename=filename,
-                            webhook_url=job.webhook  # Usar el webhook del job
+                            webhook_url=job.webhook
                         )
                     
                     if job in self.queue:
