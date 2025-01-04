@@ -38,7 +38,7 @@ class QueueService:
         """Procesa un trabajo de scraping de manera asíncrona"""
         try:
             async with self._model_semaphores[job.model]:
-                start = time.time()  # Capturar tiempo exacto
+                start = time.time()
                 job.start_time = start
                 job.status = "processing"
                 logger.info(f"Iniciando procesamiento de job {job.job_id} con modelo {job.model}")
@@ -46,7 +46,6 @@ class QueueService:
                 try:
                     scraper = self.scraper_factory.get_scraper(job.model)
                     
-                    # Crear una tarea cancelable para el scraping
                     async def do_scraping():
                         if hasattr(scraper, 'scrape_async'):
                             return await scraper.scrape_async(job.category)
@@ -54,11 +53,17 @@ class QueueService:
                             loop = asyncio.get_running_loop()
                             return await loop.run_in_executor(None, scraper.scrape, job.category)
 
-                    # Ejecutar con timeout estricto
                     try:
-                        results = await asyncio.wait_for(do_scraping(), timeout=settings.MAX_TIMEOUT - 1)  # Timeout estricto
+                        results = await asyncio.wait_for(do_scraping(), timeout=settings.MAX_TIMEOUT - 1)
                         job.results = results if results else []
                         job.status = "completed"
+                        
+                        print(f"\n=== Scraping Completado ===")
+                        print(f"ID: {job.job_id}")
+                        print(f"Modelo: {job.model}")
+                        print(f"Categoría: {job.category}")
+                        print(f"Total artículos: {len(job.results)}")
+                        print("===========================\n")
                         
                     except asyncio.TimeoutError:
                         job.status = "partial"
@@ -77,16 +82,15 @@ class QueueService:
                     logger.error(f"Error procesando job {job.job_id}: {str(e)}")
 
                 finally:
-                    end = time.time()  # Capturar tiempo exacto
+                    end = time.time()
                     job.end_time = end
                     
-                    # Forzar verificación de timeout
                     self._force_partial_if_timeout(job)
                     
                     # Si hay resultados, guardar en Google Sheets y notificar
                     if job.results and len(job.results) > 0:
-                        # Save to Google Sheets
-                        sheets_service.save_job_results(job)
+                        # Save to Google Sheets asíncronamente
+                        await sheets_service.save_job_results(job)
                         
                         # Notify completion
                         filename = f"xepelin_{job.category}_{job.model}_{int(time.time())}.json"
