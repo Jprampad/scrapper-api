@@ -90,15 +90,15 @@ class QueueService:
                     # Si hay resultados, guardar en Google Sheets y notificar
                     if job.results and len(job.results) > 0:
                         # Save to Google Sheets asíncronamente
-                        await sheets_service.save_job_results(job)
+                        success, sheet_url = await sheets_service.save_job_results(job)
                         
-                        # Notify completion
-                        filename = f"xepelin_{job.category}_{job.model}_{int(time.time())}.json"
-                        notify_job_completion(
-                            job_id=job.job_id,
-                            filename=filename,
-                            webhook_url=job.webhook
-                        )
+                        if success:
+                            # Notify completion with sheet URL
+                            notify_job_completion(
+                                job_id=job.job_id,
+                                webhook_url=job.webhook,
+                                sheet_url=sheet_url
+                            )
                     
                     if job in self.queue:
                         self.queue.remove(job)

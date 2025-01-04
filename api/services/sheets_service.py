@@ -18,7 +18,9 @@ class GoogleSheetsService:
     def _setup_client(self) -> gspread.Client:
         """Inicializa el cliente de Google Sheets con las credenciales"""
         scopes = [
-            'https://www.googleapis.com/auth/spreadsheets'
+            'https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/drive.file',
+            'https://www.googleapis.com/auth/drive'
         ]
         
         credentials_path = Path('api/xepelin-parte-2-c6ef5d54450c.json')
@@ -42,21 +44,19 @@ class GoogleSheetsService:
         reraise=True
     )
     def _batch_update(self, worksheet: gspread.Worksheet, values: List[List[str]]):
-        """
-        Actualiza múltiples filas de una vez
-        """
+        """Actualiza múltiples filas de una vez"""
         if values:
             worksheet.append_rows(values)
             time.sleep(1)
 
-    async def save_job_results(self, job: ScrapingJob) -> bool:
+    async def save_job_results(self, job: ScrapingJob) -> tuple[bool, str]:
         """
         Guarda los resultados del job en Google Sheets de manera asíncrona
         
         Args:
             job: Instancia de ScrapingJob con los resultados
         Returns:
-            bool: True si fue exitoso, False si hubo error
+            tuple[bool, str]: (éxito, url de la hoja)
         """
         try:
             loop = asyncio.get_running_loop()
@@ -82,7 +82,7 @@ class GoogleSheetsService:
                 )
             except gspread.exceptions.APIError as e:
                 logger.error(f"Error al crear la hoja: {str(e)}")
-                return False
+                return False, ""
 
             # Preparar todos los datos en una lista
             all_rows = [
@@ -107,12 +107,30 @@ class GoogleSheetsService:
                 lambda: self._batch_update(worksheet, all_rows)
             )
 
+            # Dar permisos de lectura a cualquiera con el link
+            try:
+                await loop.run_in_executor(
+                    self._executor,
+                    lambda: spreadsheet.share(
+                        None,  # None significa que es para cualquiera con el link
+                        perm_type='anyone',
+                        role='reader',
+                        with_link=True
+                    )
+                )
+            except Exception as e:
+                logger.warning(f"No se pudieron actualizar los permisos: {str(e)}")
+                # Continuamos aunque falle el cambio de permisos
+
+            # Construir URL de la hoja
+            sheet_url = f"https://docs.google.com/spreadsheets/d/{self.spreadsheet_id}/edit#gid={worksheet.id}"
+            
             logger.info(f"Resultados del job guardados en la hoja: {worksheet_title}")
-            return True
+            return True, sheet_url
 
         except Exception as e:
             logger.error(f"Error al guardar en Google Sheets: {str(e)}")
-            return False
+            return False, ""
 
     def __del__(self):
         """Cleanup del executor al destruir la instancia"""

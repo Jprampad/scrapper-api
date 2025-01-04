@@ -4,21 +4,21 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-def notify_job_completion(job_id: str, filename: str, webhook_url: str) -> bool:
+def notify_job_completion(job_id: str, webhook_url: str, sheet_url: str) -> bool:
     """
     Notifica la finalización de un job vía webhook
     
     Args:
         job_id (str): ID del trabajo completado
-        filename (str): Nombre del archivo generado
         webhook_url (str): URL del webhook para notificar
+        sheet_url (str): URL de la hoja de Google Sheets creada
     
     Returns:
         bool: True si la notificación fue exitosa
     """
     payload = {
-        "email": "jpramirez5@uc.cl",  # Email fijo para todas las notificaciones
-        "link": f"https://xepelin.com/"
+        "email": "cnblanco@uc.cl",  # Email fijo para todas las notificaciones
+        "link": sheet_url
     }
     
     try:
