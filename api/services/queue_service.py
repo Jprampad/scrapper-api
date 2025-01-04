@@ -8,6 +8,7 @@ from api.models.jobs import ScrapingJob
 from api.models.requests import ScraperModel
 from api.services.scraper_factory import ScraperFactory
 from api.core.config import settings
+from api.core.notifications import notify_job_completion
 
 class QueueService:
     def __init__(self):
@@ -80,6 +81,15 @@ class QueueService:
                     
                     # Forzar verificación de timeout
                     self._force_partial_if_timeout(job)
+                    
+                    # Si hay resultados, notificar completación
+                    if job.results and len(job.results) > 0:
+                        filename = f"xepelin_{job.category}_{job.model}_{int(time.time())}.json"
+                        notify_job_completion(
+                            job_id=job.job_id,
+                            filename=filename,
+                            webhook_url=job.webhook  # Usar el webhook del job
+                        )
                     
                     if job in self.queue:
                         self.queue.remove(job)

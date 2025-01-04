@@ -10,4 +10,4 @@ class ScraperModel(str, Enum):
 class ScrapingRequest(BaseModel):
     category: str
     model: ScraperModel = ScraperModel.ULTRA
-    timeout: Optional[int] = None
+    webhook: Optional[str] = None

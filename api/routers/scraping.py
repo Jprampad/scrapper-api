@@ -30,7 +30,12 @@ async def scrape_blog(
             )
         
         job_id = str(uuid.uuid4())
-        job = ScrapingJob(job_id, request.category, request.model)
+        job = ScrapingJob(
+            job_id=job_id, 
+            category=request.category, 
+            model=request.model,
+            webhook=request.webhook
+        )
         
         queue_service.add_job(job)
         background_tasks.add_task(queue_service.process_job, job)

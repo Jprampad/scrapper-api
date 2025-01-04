@@ -4,10 +4,17 @@ from typing import Optional, List, Dict, Any
 from api.models.requests import ScraperModel
 
 class ScrapingJob:
-    def __init__(self, job_id: str, category: str, model: ScraperModel):
+    def __init__(
+        self, 
+        job_id: str, 
+        category: str, 
+        model: ScraperModel, 
+        webhook: Optional[str] = None
+    ):
         self.job_id = job_id
         self.category = category
         self.model = model
+        self.webhook = webhook
         self.status = "pending"
         self.results: Optional[List[Dict[str, Any]]] = None
         self.start_time: Optional[float] = None
