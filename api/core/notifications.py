@@ -4,7 +4,7 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-def notify_job_completion(job_id: str, webhook_url: str, sheet_url: str) -> bool:
+def notify_job_completion(job_id: str, webhook_url: str, sheet_url: str, email: str) -> bool:
     """
     Notifica la finalización de un job vía webhook
     
@@ -12,12 +12,13 @@ def notify_job_completion(job_id: str, webhook_url: str, sheet_url: str) -> bool
         job_id (str): ID del trabajo completado
         webhook_url (str): URL del webhook para notificar
         sheet_url (str): URL de la hoja de Google Sheets creada
+        email (str): Email del usuario que solicitó el scraping
     
     Returns:
         bool: True si la notificación fue exitosa
     """
     payload = {
-        "email": "cnblanco@uc.cl",  # Email fijo para todas las notificaciones
+        "email": email,
         "link": sheet_url
     }
     
@@ -28,7 +29,7 @@ def notify_job_completion(job_id: str, webhook_url: str, sheet_url: str) -> bool
             headers={'Content-Type': 'application/json'}
         )
         response.raise_for_status()
-        logger.info(f"Notificación enviada para job {job_id} al webhook {webhook_url}")
+        logger.info(f"Notificación enviada para job {job_id} al webhook {webhook_url} (email: {email})")
         return True
     except Exception as e:
         logger.error(f"Error al enviar notificación para job {job_id}: {e}")

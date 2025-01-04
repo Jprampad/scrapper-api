@@ -34,7 +34,8 @@ async def scrape_blog(
             job_id=job_id, 
             category=request.category, 
             model=request.model,
-            webhook=request.webhook
+            webhook=request.webhook,
+            email=request.email
         )
         
         queue_service.add_job(job)

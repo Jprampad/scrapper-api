@@ -93,11 +93,12 @@ class QueueService:
                         success, sheet_url = await sheets_service.save_job_results(job)
                         
                         if success:
-                            # Notify completion with sheet URL
+                            # Notify completion with sheet URL and email
                             notify_job_completion(
                                 job_id=job.job_id,
                                 webhook_url=job.webhook,
-                                sheet_url=sheet_url
+                                sheet_url=sheet_url,
+                                email=job.email
                             )
                     
                     if job in self.queue:

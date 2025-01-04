@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 
 class ScraperModel(str, Enum):
@@ -8,6 +8,8 @@ class ScraperModel(str, Enum):
     ULTRA = "ultra"        # Asíncrono
 
 class ScrapingRequest(BaseModel):
+    """Modelo de request para scraping"""
     category: str
     model: ScraperModel = ScraperModel.ULTRA
-    webhook: Optional[str] = None
+    webhook: str
+    email: EmailStr
