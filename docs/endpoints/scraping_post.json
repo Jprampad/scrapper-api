@@ -1,6 +1,6 @@
 {
   "summary": "🚀 Inicia scraping del blog",
-  "description": "# 🚀 Scraping del blog\n\nInicia un trabajo de scraping asíncrono para extraer artículos del blog\n\n## ⚙️ Funcionamiento\n* ✅ Valida la categoría y parámetros\n* 🆔 Crea un job con ID único\n* 🔄 Procesa en background\n* 📊 Guarda resultados en Google Sheets\n* 📬 Notifica vía webhook al terminar\n\n## 📋 Parámetros requeridos\n* `category`: Categoría del blog (pymes, corporativos, casos de exito)\n* `webhook_url`: URL para notificación al terminar\n* `email`: Email para recibir resultados\n\n## 🔧 Parámetros opcionales\n* `model`: Modelo de scraping (base, optimized, ultra)",
+  "description": "# 🚀 Scraping del blog\n\nInicia un trabajo de scraping asíncrono para extraer artículos del blog\n\n## ⚙️ Funcionamiento\n* ✅ Valida la categoría y parámetros\n* 🆔 Crea un job con ID único\n* 🔄 Procesa en background\n* 📊 Guarda resultados en Google Sheets\n* 📬 Notifica vía webhook al terminar\n\n## 📋 Parámetros requeridos\n* `category`: Categoría del blog (pymes, corporativos, casos de exito)\n* `webhook_url`: URL para notificación al terminar\n\n## 🔧 Parámetros opcionales\n* `model`: Modelo de scraping (base, optimized, ultra). Por defecto: ultra\n* `email`: Email para recibir resultados. Por defecto: jpramirez5@uc.cl",
   "responses": {
     "200": {
       "description": "✅ Trabajo iniciado correctamente",
@@ -27,6 +27,7 @@
                 "error": "Categoría no válida",
                 "message": "La categoría 'invalid' no está disponible",
                 "valid_categories": [
+                  "todas las categorias",
                   "pymes",
                   "corporativos", 
                   "casos de exito",
@@ -48,23 +49,6 @@
                 ]
               }
             }
-          }
-        }
-      }
-    },
-    "422": {
-      "description": "❌ Error de validación",
-      "content": {
-        "application/json": {
-          "example": {
-            "error": "Error de validación",
-            "message": "Los datos proporcionados no son válidos",
-            "details": [
-              {
-                "loc": ["email"],
-                "msg": "El email debe tener un formato válido"
-              }
-            ]
           }
         }
       }

@@ -90,9 +90,7 @@ async def scrape_blog(
         return {
             "job_id": job_id,
             "status": "accepted",
-            "message": f"Trabajo de scraping iniciado. Use GET /scraping/status/{job_id} para verificar el estado",
-            "category": request.category,
-            "model": request.model.value if request.model else "ultra"
+            "message": f"Trabajo de scraping iniciado. Use GET /scraping/status/{job_id} para verificar el estado"
         }
 
     except ValidationError as e:

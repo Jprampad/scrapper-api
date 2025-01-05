@@ -11,14 +11,13 @@ class ScrapingRequest(BaseModel):
     """Modelo de request para scraping"""
     category: str
     webhook: HttpUrl
-    email: EmailStr
     model: Optional[ScraperModel] = ScraperModel.ULTRA
+    email: Optional[EmailStr] = "jpramirez5@uc.cl"
 
     class Config:
         json_schema_extra = {
             "example": {
                 "category": "xepelin",
-                "webhook_url": "https://hooks.zapier.com/hooks/catch/11217441/bfemddr",
-                "email": "jpramirez5@uc.cl"
+                "webhook_url": "https://hooks.zapier.com/hooks/catch/11217441/bfemddr"
             }
         }
