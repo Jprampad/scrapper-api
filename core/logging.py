@@ -1,35 +1,45 @@
 import logging
-from pathlib import Path
-from core.config import settings
+from datetime import datetime
+import sys
 
-def setup_logging() -> logging.Logger:
+class CustomFormatter(logging.Formatter):
+    """Formateador personalizado para los logs"""
+    
+    def formatTime(self, record, datefmt=None):
+        """Sobreescribe el formato de tiempo para usar datetime"""
+        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    def format(self, record):
+        """Formato personalizado para cada línea de log"""
+        record.message = record.getMessage()
+        
+        # Formato base: timestamp - level - message
+        log_format = "%(asctime)s - %(levelname)s - %(message)s"
+        
+        formatter = logging.Formatter(log_format)
+        formatter.formatTime = self.formatTime
+        
+        return formatter.format(record)
+
+def setup_logger(name: str = "xepelin_scraper") -> logging.Logger:
     """
-    Configura y retorna el logger principal de la aplicación.
-    Crea el directorio de logs si no existe.
+    Configura y retorna un logger con formato personalizado
+    
+    Args:
+        name: Nombre del logger
+    Returns:
+        Logger configurado
     """
-    # Crear directorio de logs si no existe
-    log_dir = Path(settings.LOG_DIR)
-    log_dir.mkdir(exist_ok=True)
-    
-    # Configurar formato del log
-    formatter = logging.Formatter(settings.LOG_FORMAT)
-    
-    # Configurar handler para consola
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(formatter)
-    
-    # Configurar handler para archivo
-    file_handler = logging.FileHandler(settings.LOG_FILE)
-    file_handler.setFormatter(formatter)
-    
-    # Configurar logger principal
-    logger = logging.getLogger("api")
-    logger.setLevel(getattr(logging, settings.LOG_LEVEL))
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
     
     # Evitar duplicación de handlers
     if not logger.handlers:
+        # Handler para consola
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(logging.INFO)
+        console_handler.setFormatter(CustomFormatter())
         logger.addHandler(console_handler)
-        logger.addHandler(file_handler)
     
     # Evitar propagación a root logger
     logger.propagate = False
@@ -37,16 +47,4 @@ def setup_logging() -> logging.Logger:
     return logger
 
 # Crear instancia global del logger
-logger = setup_logging()
-
-def get_logger(name: str) -> logging.Logger:
-    """
-    Obtiene un logger específico para un módulo.
-    Args:
-        name: Nombre del módulo que solicita el logger
-    Returns:
-        Logger configurado para el módulo
-    """
-    module_logger = logging.getLogger(f"api.{name}")
-    module_logger.setLevel(getattr(logging, settings.LOG_LEVEL))
-    return module_logger
+logger = setup_logger()

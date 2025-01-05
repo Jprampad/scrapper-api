@@ -1,0 +1,24 @@
+{
+  "summary": "📂 Categorías disponibles",
+  "description": "# 📂 Categorías del blog\n\nLista las categorías disponibles para scraping\n\n## Categorías disponibles\n* 🌟 **todas las categorias**: Todos los artículos del blog\n* 💼 **pymes**: Artículos sobre pequeñas y medianas empresas\n* 🏢 **corporativos**: Contenido corporativo\n* ✨ **casos de exito**: Historias de éxito de clientes\n* 📚 **educacion financiera**: Recursos educativos\n* 🎯 **xepelin**: Noticias y actualizaciones de Xepelin\n* 💡 **emprendedores**: Contenido para emprendedores",
+  "responses": {
+    "200": {
+      "description": "✅ Lista de categorías obtenida correctamente",
+      "content": {
+        "application/json": {
+          "example": {
+            "categories": [
+              "todas las categorias",
+              "pymes",
+              "corporativos",
+              "casos de exito",
+              "educacion financiera",
+              "xepelin",
+              "emprendedores"
+            ]
+          }
+        }
+      }
+    }
+  }
+} 

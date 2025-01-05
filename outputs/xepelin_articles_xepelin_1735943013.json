@@ -1,0 +1,229 @@
+{
+  "metadata": {
+    "fecha_ejecucion": "2025-01-03T19:23:33.680980",
+    "categoria": "xepelin",
+    "total_articulos": 27,
+    "tiempo_ejecucion": {
+      "segundos": 9.79,
+      "formato_legible": "0 minutos 9 segundos"
+    }
+  },
+  "articulos": [
+    {
+      "Titular": "Nuevo portal gratuito para Asesores y Socios Financieros",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/nuevo-portal-gratuito-para-asesores-y-socios-financieros",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "¿Cómo funciona el Buy Now, Pay Later de Xepelin?",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/bnpl-xepelin",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Xepelin Insights: Desafíos regulatorios y tecnológicos en Chile",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/xepelin-insights-desafios-regulatorios-y-tecnologicos-en-chile",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "¿Tu cuenta Xepelin se desvinculó del SII? Te ayudamos a solucionarlo",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/vincula-cuenta-xepelin-sii",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "¿Tu cuenta Xepelin se desvinculó del SAT? Te ayudamos a solucionarlo",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/vincula-cuenta-xepelin-sat",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "Money Talks by Xepelin: Tendencias Emergentes en Finanzas",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/money-talks-by-xepelin-tendencias-emergentes-en-finanzas",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Xepelin Insights: Fraude Empresarial en Nuevo Léon",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/xepelin-insights-fraude-empresarial-en-nuevo-leon",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "Women In Tech, México 2024",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/women-in-tech-mexico-2024",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "5 min de lectura"
+    },
+    {
+      "Titular": "¿Cómo interpretar tu estado de situación financiera con Xepelin?",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/interpreta-estado-financiero-xtracker",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "5 min de lectura"
+    },
+    {
+      "Titular": "Gestión y liquidez para tu negocio en un solo lugar",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/xepelin-suite-controla-y-gestiona-las-finanzas-negocio-en-un-solo-lugar",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Xepelin lanza el innovador Centro de Recursos para las PYMES",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/xepelin-lanza-el-innovador-centro-de-recursos-para-las-pymes",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Entorno Macro-Financiero 2024 y Lanzamiento de XData",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/entorno-macro-financiero-2024-y-lanzamiento-de-xdata",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "5 min de lectura"
+    },
+    {
+      "Titular": "Beneficios del programa de Xepelin para contadores",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/beneficios-del-programa-contadores-xepelin",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "Cómo potenciar tu despacho contable con las soluciones financieras de Xepelin",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/potenciar-despacho-contable-con-soluciones-financieras",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "¿Cómo funciona el financiamiento empresarial en Xepelin?",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/como-funciona-financiamiento-empresarial-xepelin",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Paga a tus proveedores en el extranjero con Payments Internacional",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/paga-a-tus-proveedores-en-el-extranjero-con-payments-internacional",
+      "Autor": "Bernardita Bulnes",
+      "Cargo": "Pagos Internacionales",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Posterga tus pagos a proveedores con Payments",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/posterga-tus-pagos-a-proveedores",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "4 min de lectura"
+    },
+    {
+      "Titular": "Nuevo menú en la plataforma",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/nuevo-menu-en-la-plataforma",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "¡Xepelin levanta US $111 millones en ronda Serie B!",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/xepelin-levanta-111-mdd-en-serie-b",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "5 min de lectura"
+    },
+    {
+      "Titular": "Payments, la plataforma digital para pagar a proveedores",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/payments-la-plataforma-digital-para-pagar-a-proveedores",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Xepelin, La Fintech que Ayuda a Formar Empresas Exitosas",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/xepelin-la-fintech-que-ayuda-a-formar-empresas-exitosas",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "5 min de lectura"
+    },
+    {
+      "Titular": "Xepelin llega a México: Ofrecerá apoyo a Pymes y Emprendedores",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/fintech-xepelin-llega-a-mexico-ofrecera-apoyo-a-pymes-y-emprendedores",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "4 min de lectura"
+    },
+    {
+      "Titular": "Conoce Xepelin, y la historia detrás de nosotros",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/que-es-xepelin",
+      "Autor": "Rebeca Zaragoza",
+      "Cargo": "Content Manager",
+      "Tiempo de Lectura": "4 min de lectura"
+    },
+    {
+      "Titular": "¿Cómo se determinan las tasas de Factoring en Xepelin?",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/como-se-determinan-las-tasas-de-factoring-en-xepelin",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "XTracker: Monitorea la salud financiera de tu negocio en tiempo real",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/xtracker-la-nueva-herramienta-tecnologica-para-pymes",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "3 min de lectura"
+    },
+    {
+      "Titular": "Guía de Facturación Xepelin",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/guia-de-facturacion-xepelin",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "2 min de lectura"
+    },
+    {
+      "Titular": "¿Qué son y cómo solicitar los excedentes en Xepelin?",
+      "Categoría": "Xepelin",
+      "URL": "https://xepelin.com/blog/noticias/que-son-y-como-solicitar-los-excedentes-en-xepelin",
+      "Autor": "Andres Callpa",
+      "Cargo": "Key Account Manager Pyme",
+      "Tiempo de Lectura": "2 min de lectura"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "summary": "🚀 Inicia scraping del blog",
+  "description": "# 🚀 Scraping del blog\n\nInicia un trabajo de scraping asíncrono para extraer artículos del blog\n\n## ⚙️ Funcionamiento\n* ✅ Valida la categoría y parámetros\n* 🆔 Crea un job con ID único\n* 🔄 Procesa en background\n* 📊 Guarda resultados en Google Sheets\n* 📬 Notifica vía webhook al terminar\n\n## 📋 Parámetros requeridos\n* `category`: Categoría del blog (pymes, corporativos, casos de exito)\n* `webhook_url`: URL para notificación al terminar\n* `email`: Email para recibir resultados\n\n## 🔧 Parámetros opcionales\n* `model`: Modelo de scraping (base, optimized, ultra)",
+  "responses": {
+    "200": {
+      "description": "✅ Trabajo iniciado correctamente",
+      "content": {
+        "application/json": {
+          "example": {
+            "job_id": "550e8400-e29b-41d4-a716-446655440000",
+            "status": "accepted",
+            "message": "Trabajo de scraping iniciado. Use GET /scraping/status/{job_id} para verificar el estado",
+            "category": "xepelin",
+            "model": "ultra"
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "❌ Error de parámetros",
+      "content": {
+        "application/json": {
+          "examples": {
+            "category": {
+              "summary": "Categoría inválida",
+              "value": {
+                "error": "Categoría no válida",
+                "message": "La categoría 'invalid' no está disponible",
+                "valid_categories": [
+                  "pymes",
+                  "corporativos", 
+                  "casos de exito",
+                  "educacion financiera",
+                  "xepelin",
+                  "emprendedores"
+                ]
+              }
+            },
+            "model": {
+              "summary": "Modelo inválido", 
+              "value": {
+                "error": "Modelo inválido",
+                "message": "El modelo 'invalid_model' no está disponible",
+                "valid_models": [
+                  "base",
+                  "optimized",
+                  "ultra"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "description": "❌ Error de validación",
+      "content": {
+        "application/json": {
+          "example": {
+            "error": "Error de validación",
+            "message": "Los datos proporcionados no son válidos",
+            "details": [
+              {
+                "loc": ["email"],
+                "msg": "El email debe tener un formato válido"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+} 

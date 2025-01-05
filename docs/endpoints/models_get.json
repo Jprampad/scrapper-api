@@ -1,0 +1,16 @@
+{
+  "summary": "🔧 Modelos disponibles",
+  "description": "# 🔧 Modelos de scraping disponibles\n",
+  "responses": {
+    "200": {
+      "description": "✅ Lista de modelos obtenida correctamente",
+      "content": {
+        "application/json": {
+          "example": {
+            "models": ["base", "optimized", "ultra"]
+          }
+        }
+      }
+    }
+  }
+} 

@@ -1,0 +1,95 @@
+{
+  "summary": "📊 Estado del trabajo",
+  "description": "# 📊 Estado del trabajo\n\nConsulta el estado y resultados de un trabajo de scraping\n\n## Estados posibles\n* ⏳ **pending**: En cola de procesamiento\n* 🔄 **processing**: Ejecutándose\n* ✅ **completed**: Finalizado con éxito\n* ⚠️ **partial**: Finalizado parcialmente por timeout\n* ❌ **failed**: Error en procesamiento\n\n## Resultados\n* 📝 Lista de artículos extraídos (completed/partial)\n* ⏱️ Tiempo de procesamiento\n* 📈 Cantidad de artículos\n* ⚠️ Mensaje de error (failed/partial)",
+  "responses": {
+    "200": {
+      "description": "✅ Estado obtenido correctamente",
+      "content": {
+        "application/json": {
+          "examples": {
+            "completed": {
+              "summary": "Trabajo completado",
+              "value": {
+                "job_id": "06f8bf7c-d94b-4980-89f6-f429c2ea081b",
+                "status": "completed",
+                "category": "xepelin",
+                "model": "ultra",
+                "duration": 12.23,
+                "error": null,
+                "articles_count": 27,
+                "articles": [
+                  {
+                    "Titular": "Nuevo portal gratuito para Asesores y Socios Financieros",
+                    "Categoría": "Xepelin",
+                    "URL": "https://xepelin.com/blog/noticias/nuevo-portal-gratuito-para-asesores-y-socios-financieros",
+                    "Autor": "Rebeca Zaragoza",
+                    "Cargo": "Content Manager",
+                    "Tiempo de Lectura": "2 min de lectura"
+                  }
+                ]
+              }
+            },
+            "partial": {
+              "summary": "Trabajo parcialmente completado",
+              "value": {
+                "job_id": "850e8400-e29b-41d4-a716-446655440000",
+                "status": "partial",
+                "category": "xepelin",
+                "model": "ultra",
+                "duration": 300.00,
+                "error": "Timeout después de 5 minutos. Se obtuvieron resultados parciales.",
+                "articles_count": 15,
+                "articles": [
+                  {
+                    "Titular": "Nuevo portal gratuito para Asesores y Socios Financieros",
+                    "Categoría": "Xepelin",
+                    "URL": "https://xepelin.com/blog/noticias/nuevo-portal-gratuito-para-asesores-y-socios-financieros",
+                    "Autor": "Rebeca Zaragoza",
+                    "Cargo": "Content Manager",
+                    "Tiempo de Lectura": "2 min de lectura"
+                  }
+                ]
+              }
+            },
+            "processing": {
+              "summary": "Trabajo en proceso",
+              "value": {
+                "job_id": "550e8400-e29b-41d4-a716-446655440000",
+                "status": "processing",
+                "category": "xepelin",
+                "model": "ultra",
+                "duration": 5.67,
+                "error": null,
+                "articles_count": 0,
+                "articles": []
+              }
+            },
+            "failed": {
+              "summary": "Trabajo fallido",
+              "value": {
+                "job_id": "750e8400-e29b-41d4-a716-446655440000",
+                "status": "failed",
+                "category": "xepelin",
+                "model": "ultra",
+                "duration": 0.45,
+                "error": "Error de conexión con el blog",
+                "articles_count": 0,
+                "articles": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "404": {
+      "description": "❌ Trabajo no encontrado",
+      "content": {
+        "application/json": {
+          "example": {
+            "detail": "Trabajo no encontrado: 550e8400-e29b-41d4-a716-446655440000"
+          }
+        }
+      }
+    }
+  }
+} 

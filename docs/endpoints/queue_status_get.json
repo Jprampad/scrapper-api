@@ -1,0 +1,37 @@
+{
+  "summary": "📈 Estado de la cola",
+  "description": "# 📊 Estado de la cola de trabajos\n\nRetorna estadísticas en tiempo real de la cola de trabajos de scraping\n\n## Funcionamiento\n* 📊 Muestra contadores de trabajos por estado\n* ⏳ Lista trabajos pendientes con tiempo de espera\n* 🔄 Lista trabajos en proceso con duración\n* ✅ Lista trabajos completados\n\n## Métricas retornadas\n* `pending_jobs`: Total de trabajos pendientes\n* `processing_jobs`: Total de trabajos en proceso\n* `completed_jobs`: Total de trabajos finalizados\n* `jobs_pending`: Lista detallada de trabajos en espera\n* `jobs_processing`: Lista detallada de trabajos procesándose\n* `jobs_finished`: Lista detallada de trabajos completados",
+  "responses": {
+    "200": {
+      "description": "✅ Estado de cola obtenido correctamente",
+      "content": {
+        "application/json": {
+          "example": {
+            "pending_jobs": 1,
+            "processing_jobs": 1,
+            "completed_jobs": 0,
+            "jobs_pending": [
+              {
+                "job_id": "dd649f18-4b4f-43a4-b65c-e9e90b981f0f",
+                "status": "pending",
+                "category": "xepelin",
+                "model": "ultra",
+                "waiting_time": 2.09
+              }
+            ],
+            "jobs_processing": [
+              {
+                "job_id": "51025f96-6928-4a51-8cfd-745df5db5fea",
+                "status": "processing",
+                "category": "xepelin",
+                "model": "ultra",
+                "duration": 3.23
+              }
+            ],
+            "jobs_finished": []
+          }
+        }
+      }
+    }
+  }
+} 

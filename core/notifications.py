@@ -1,8 +1,5 @@
 import requests
-import logging
-from typing import Optional
-
-logger = logging.getLogger(__name__)
+from core.logging import logger
 
 def notify_job_completion(job_id: str, webhook_url: str, sheet_url: str, email: str) -> bool:
     """
