@@ -1,0 +1,22 @@
+timestamp,model,category,duration,articles_count,status
+20250104_211011,base,xepelin,31.33,27,completed
+20250104_211011,base,pymes,134.15,139,completed
+20250104_211011,base,corporativos,110.49,114,completed
+20250104_211011,base,casos de exito,21.67,14,completed
+20250104_211011,base,educacion financiera,83.18,80,completed
+20250104_211011,base,emprendedores,42.45,32,completed
+20250104_211011,base,todas las categorias,0.0,0,error
+20250104_211011,optimized,xepelin,17.64,27,completed
+20250104_211011,optimized,pymes,51.33,139,completed
+20250104_211011,optimized,corporativos,43.93,114,completed
+20250104_211011,optimized,casos de exito,12.69,14,completed
+20250104_211011,optimized,educacion financiera,30.88,80,completed
+20250104_211011,optimized,emprendedores,17.69,32,completed
+20250104_211011,optimized,todas las categorias,164.25,406,completed
+20250104_211011,ultra,xepelin,9.62,27,completed
+20250104_211011,ultra,pymes,24.37,139,completed
+20250104_211011,ultra,corporativos,20.5,114,completed
+20250104_211011,ultra,casos de exito,8.29,14,completed
+20250104_211011,ultra,educacion financiera,16.16,80,completed
+20250104_211011,ultra,emprendedores,10.05,32,completed
+20250104_211011,ultra,todas las categorias,25.39,406,completed

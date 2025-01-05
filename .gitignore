@@ -176,4 +176,3 @@ cython_debug/
 
 benchmark_results/
 chromedriver-linux64/
-outputs/
