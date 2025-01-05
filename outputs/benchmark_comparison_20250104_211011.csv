@@ -1,0 +1,10 @@
+,articles_count,articles_count,articles_count,duration,duration,duration
+model,base,optimized,ultra,base,optimized,ultra
+category,,,,,,
+casos de exito,14.0,14.0,14.0,21.67,12.69,8.29
+corporativos,114.0,114.0,114.0,110.49,43.93,20.5
+educacion financiera,80.0,80.0,80.0,83.18,30.88,16.16
+emprendedores,32.0,32.0,32.0,42.45,17.69,10.05
+pymes,139.0,139.0,139.0,134.15,51.33,24.37
+todas las categorias,0.0,406.0,406.0,0.0,164.25,25.39
+xepelin,27.0,27.0,27.0,31.33,17.64,9.62
