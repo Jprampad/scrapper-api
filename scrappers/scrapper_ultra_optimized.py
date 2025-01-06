@@ -264,10 +264,6 @@ class UltraOptimizedScraper:
             logger.info(f"Timeout en scrape. Retornando {len(self.partial_results)} resultados parciales")
             return self.partial_results
 
-def scrape_xepelin_blog(category: str) -> Optional[List[Dict]]:
-    scraper = UltraOptimizedScraper()
-    return scraper.scrape(category)
-
 if __name__ == "__main__":
     import argparse
     import json
