@@ -23,34 +23,40 @@ def load_endpoint_docs(filename: str) -> Dict:
     Load endpoint documentation from JSON files.
     Uses paths relative to the script location.
     """
-    # Construir ruta completa al archivo JSON
-    json_path = os.path.join('./docs', filename)
-    
-    # Verificar que el archivo existe
-    if not os.path.exists(json_path):
+    try:
+        # Construir ruta completa al archivo JSON
+        json_path = os.path.join(DOCS_DIR, filename)
+        
+        # Verificar que el archivo existe
+        if not os.path.exists(json_path):
+            raise FileNotFoundError(
+                f"Documentation file not found at: {json_path}"
+            )
+            
+        # Cargar y retornar el contenido del JSON
+        with open(json_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+            
+    except Exception as e:
         raise FileNotFoundError(
-            f"Documentation file not found at: {json_path}"
+            f"Error loading documentation from {filename}: {str(e)}\n"
+            f"Script directory: {SCRIPT_DIR}\n"
+            f"Docs directory: {DOCS_DIR}"
         )
-        
-    # Cargar y retornar el contenido del JSON
-    with open(json_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
-        
-
 
 # Cargar la documentación al inicio
-#scraping_docs = load_endpoint_docs("scraping_post.json")
-#status_docs = load_endpoint_docs("status_get.json")
-#queue_docs = load_endpoint_docs("queue_status_get.json")
-#models_docs = load_endpoint_docs("models_get.json")
-#categories_docs = load_endpoint_docs("categories_get.json")
+scraping_docs = load_endpoint_docs("scraping_post.json")
+status_docs = load_endpoint_docs("status_get.json")
+queue_docs = load_endpoint_docs("queue_status_get.json")
+models_docs = load_endpoint_docs("models_get.json")
+categories_docs = load_endpoint_docs("categories_get.json")
 
 @router.post(
     "",
     response_model=ScrapingResponse,
-   # summary=scraping_docs["summary"],
-   # description=scraping_docs["description"],
-   # responses=scraping_docs["responses"]
+    summary=scraping_docs["summary"],
+    description=scraping_docs["description"],
+    responses=scraping_docs["responses"]
 )
 async def scrape_blog(
     request: ScrapingRequest,
@@ -130,9 +136,9 @@ async def scrape_blog(
 
 @router.get(
     "/queue/status",
-    #summary=queue_docs["summary"],
-    #description=queue_docs["description"],
-    #responses=queue_docs["responses"]
+    summary=queue_docs["summary"],
+    description=queue_docs["description"],
+    responses=queue_docs["responses"]
 )
 async def get_queue_status() -> Dict:
     """Obtiene el estado actual de la cola de trabajos"""
@@ -140,9 +146,9 @@ async def get_queue_status() -> Dict:
 
 @router.get(
     "/models",
-    #summary=models_docs["summary"],
-    #description=models_docs["description"],
-    #responses=models_docs["responses"]
+    summary=models_docs["summary"],
+    description=models_docs["description"],
+    responses=models_docs["responses"]
 )
 async def get_available_models() -> Dict:
     """Retorna los modelos de scraper disponibles"""
@@ -152,9 +158,9 @@ async def get_available_models() -> Dict:
 
 @router.get(
     "/categories",
-   # summary=categories_docs["summary"],
-   # description=categories_docs["description"],
-   # responses=categories_docs["responses"]
+    summary=categories_docs["summary"],
+    description=categories_docs["description"],
+    responses=categories_docs["responses"]
 )
 async def get_available_categories() -> Dict:
     """Retorna las categorías disponibles para scraping"""
@@ -165,9 +171,9 @@ async def get_available_categories() -> Dict:
 @router.get(
     "/status/{job_id}",
     response_model=ArticleResponse,
-    #summary=status_docs["summary"],
-    #description=status_docs["description"],
-    #responses=status_docs["responses"]
+    summary=status_docs["summary"],
+    description=status_docs["description"],
+    responses=status_docs["responses"]
 )
 async def get_job_status(job_id: str) -> Dict:
     """Obtiene el estado y resultados de un trabajo de scraping"""
