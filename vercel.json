@@ -9,7 +9,11 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "main.py"
+      "dest": "/main.py"
     }
-  ]
+  ],
+  "env": {
+    "PYTHONPATH": ".",
+    "PYTHON_VERSION": "3.12"
+  }
 } 
