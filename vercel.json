@@ -11,10 +11,5 @@
       "src": "/(.*)",
       "dest": "main.py"
     }
-  ],
-  "env": {
-    "PYTHONPATH": ".",
-    "GOOGLE_CREDENTIALS_JSON": "@google-credentials-json",
-    "GOOGLE_SPREADSHEET_ID": "@google-spreadsheet-id"
-  }
+  ]
 } 
