@@ -32,3 +32,7 @@ app = FastAPI(
 
 # Registrar routers
 app.include_router(scraping.router) 
+
+@app.get("/")
+async def root():
+    return {"message": "API is running, check /docs for more information"}

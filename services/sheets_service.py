@@ -3,17 +3,19 @@ from google.oauth2.service_account import Credentials
 from typing import List, Dict, Any
 from core.logging import logger
 from models.jobs import ScrapingJob
-from pathlib import Path
 import time
 from tenacity import retry, stop_after_attempt, wait_exponential
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+import json
+import os
 
 class GoogleSheetsService:
     def __init__(self):
-        self._executor = ThreadPoolExecutor(max_workers=3)
+        max_workers = int(os.getenv('GOOGLE_SHEETS_MAX_WORKERS', 3))
+        self._executor = ThreadPoolExecutor(max_workers=max_workers)
         self.client = self._setup_client()
-        self.spreadsheet_id = '1wlaiJhF07N0GAHYUi2Iq0wtd3uY_w4xHbbDbqX1FTMk'
+        self.spreadsheet_id = os.getenv('GOOGLE_SPREADSHEET_ID')
 
     def _setup_client(self) -> gspread.Client:
         """Inicializa el cliente de Google Sheets con las credenciales"""
@@ -23,15 +25,15 @@ class GoogleSheetsService:
             'https://www.googleapis.com/auth/drive'
         ]
         
-        credentials_path = Path('xepelin-parte-2-c6ef5d54450c.json')
+        # Obtener credenciales del .env
+        credentials_json = os.getenv('GOOGLE_CREDENTIALS_JSON')
+        if not credentials_json:
+            raise ValueError("GOOGLE_CREDENTIALS_JSON no encontrado en variables de entorno")
+            
+        credentials_dict = json.loads(credentials_json)
         
-        if not credentials_path.exists():
-            raise FileNotFoundError(
-                f"Archivo de credenciales no encontrado en: {credentials_path.absolute()}"
-            )
-        
-        credentials = Credentials.from_service_account_file(
-            str(credentials_path),
+        credentials = Credentials.from_service_account_info(
+            credentials_dict,
             scopes=scopes
         )
         
