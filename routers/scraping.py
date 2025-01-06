@@ -11,6 +11,7 @@ from pydantic import ValidationError
 from core.logging import logger
 import json
 from pathlib import Path
+import os
 
 router = APIRouter(prefix="/scraping", tags=["Scraping"])
 
@@ -19,9 +20,32 @@ def load_endpoint_docs(filename: str) -> dict:
     """
     Carga la documentación directamente desde los archivos JSON.
     """
-    docs_path = Path(__file__).parent.parent / "docs" / "endpoints"
-    with open(docs_path / filename, "r") as f:
-        return json.load(f)
+    # Try multiple possible paths
+    possible_paths = [
+        # Local development path
+        Path(__file__).parent.parent / "docs" / "endpoints",
+        # Vercel deployment path
+        Path("/var/task/docs/endpoints"),
+        # Absolute path from project root
+        Path(os.getenv("VERCEL_ROOT", "")) / "docs" / "endpoints",
+        # Current working directory
+        Path.cwd() / "docs" / "endpoints"
+    ]
+    
+    for docs_path in possible_paths:
+        try:
+            file_path = docs_path / filename
+            if file_path.exists():
+                with open(file_path, "r") as f:
+                    return json.load(f)
+        except Exception:
+            continue
+            
+    # If no path worked, raise a more descriptive error
+    raise FileNotFoundError(
+        f"Could not find {filename} in any of these locations: \n" + 
+        "\n".join(str(p) for p in possible_paths)
+    )
 
 # Obtener documentación para cada endpoint
 scraping_docs = load_endpoint_docs("scraping_post.json")
