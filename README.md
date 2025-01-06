@@ -134,6 +134,27 @@ pip install -r requirements.txt
 2. Añade las siguientes variables:
 
 ``` env
-WEBHOOK_URL=tu_webhook_url
-GOOGLE_SHEETS_CREDENTIALS=path/to/credentials.json
+# Google Service Account Credentials
+GOOGLE_CREDENTIALS_JSON={"type":"service_account","project_id":"xepelin-parte-2","private_key_id":"c6ef5d54450cff5aba8c19fcb29d8207bdce3d9f","private_key":"-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCg4qOYxB9ceZjm\n6XjINIgMwVsbGydTCx7B4xrIjc+lZ9MQrsXsvEozekq7o001yGNJXZmiYrAS7j87\nPOocfzbuwYCO5GoDkrKKo2FDQFJPZVaBGKMdZwb80OAQTD2ykN6J2/3/M2b5m0kd\nLy1so6JnzVOwO6XU/Saewhvebv/c6yI9ZojYMf9NK0DZpmjNaDPT6bFGcFe0Nh+W\nsdgwjpLYKNwpODIxZnmxyMmMW7ecsXCcHugJFaPfxdiknUGp5CG+jXSKfAfmqJwc\ni3Zv0eMIHJIOvFc57gnaYB/v3dmNFP2OOvZzmnBcoRSOqXQgYV6GCZzjNkmyx/Ba\nRIyIUXCDAgMBAAECggEAGVaIYGtm6wgFkjxr9s/7K1Mad6LnpxcFwZB0a+iVrt2y\nqppz9oxS/VeBxJp78v/7zxasNxxm0ZxvHfPChTlt291i015a6fQlJVuE2nQbYoC5\nxnwsWFmdCp0U5Mw1HVXejoS0tIgSbDZOJggDlewRjFqUlxlVzT0PY4p7nCUMK+0m\nRJo4c0hgIqxadCrXPmRCNX+8+g41m3lStZ0mk3rBlJfhwNc+jGJS6gmZ2C1TMa9T\n6emR98Jup64ymmkp1uBNkJ4TFZOKSPuqhrKpdHJbqsREJjuiyyYCEiqsD0r174xz\nPnQcHHHcUyaJItHwuX3vjWDbJNBv4LbAgEb03UXRwQKBgQDV2jWPw3Q+YuhOGxGZ\nQjUDPuYwkgjY+h/LcaAHrUpvhv9dJo4jBaWkQjxoaGklVTL65rIaZckcbPkeTyDJ\n9ri0MDnwBGDDccLeXeDyZxeyWehN56vvi1IDWZYJnYbTbFhSKHXJWVgumE4deY9u\n5gxeTeI6jtQcB5tJ1nKqg7NLQQKBgQDAmAI7LgtQNfvva58n1dGKGcVZGZ56dNC3\nNTthAmu721NtwTKpjS5XmmtVOnB1zj72c/irB7PL/NRvN3GSsk93s8MmLvWiBhr9\n/KSiPa98KgILBRPTvWvqUrAQS6SJ7bu4QpQ22UB9PkT+g66fwxobIoDiO336MxO3\n8CJDvA2ewwKBgQChQ70yXXUyeomuJLF/vjKV8P/LTsTHQs9pLpU8VMyWD9pQV3vG\nI0MG/D/riBkKYxZfqEpUp78h5XdzCL60Lo6Yqul1+wcxO391CpxQj7eJ8kzBOtwo\ndwpwpkUDmTwMAV8VDZfNL8fU01vM1Fd6jJZ1IwxflkeTn5TV+JZdyZUSQQKBgQC4\nZ1OLknSmomnNPkCvhZ0SG8bHny4MlhjZspBePFEnF8N0DU4S5ej/XA11F3Vids32\nb+gi6kcPA8/rhSyrhytrs6UgxEnQjwP9OI/yABosSpSWNJBdZrsTK4UEtUigAA6D\nSMxdD/sdcCfjgfYLZmVyocDB3LCshYdV0QkdzctEvQKBgQDFT3c00x5heKdWysMu\n5WzGV6BzrbP7R3EIuv5qYN1f9zV1pIzkgiAzhcQgl9JaR09hcOy8kQGFLg1Ptlla\n00pus3rbxZrMC+IHstYLVhoxW59h+RassCop3gGUTRHyJads6JZybSOO6U4sIStv\nuKsnvczt4TqunuLQNdGEu7/3Tg==\n-----END PRIVATE KEY-----\n","client_email":"xepelin-parte-2-177@xepelin-parte-2.iam.gserviceaccount.com","client_id":"112856121094952099784","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/xepelin-parte-2-177%40xepelin-parte-2.iam.gserviceaccount.com","universe_domain":"googleapis.com"}
+
+# Google Sheets Configuration
+GOOGLE_SPREADSHEET_ID=1wlaiJhF07N0GAHYUi2Iq0wtd3uY_w4xHbbDbqX1FTMk
+
+# Google Sheets Service Configuration
+GOOGLE_SHEETS_MAX_WORKERS=3
+
+DEBUG=true
+```
+
+### Paso 5: 🏃‍♂️ Ejecutar la API
+
+
+Iniciar servidor de desarrollo
+``` bash
+uvicorn main:app --reload
+```
+```
+La API estará disponible en:
+http://localhost:8000
+Documentación: http://localhost:8000/docs
 ```
