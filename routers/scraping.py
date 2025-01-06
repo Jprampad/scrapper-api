@@ -15,10 +15,8 @@ import os
 
 router = APIRouter(prefix="/scraping", tags=["Scraping"])
 
-# Obtener el directorio del script actual
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# Construir ruta al directorio de documentación relativa al script
-DOCS_DIR = os.path.join(os.path.dirname(SCRIPT_DIR), 'docs', 'endpoints')
+SCRIPT_DIR = Path(__file__).resolve().parent
+DOCS_DIR = os.path.join(SCRIPT_DIR.parent , 'docs', 'endpoints')
 
 def load_endpoint_docs(filename: str) -> Dict:
     """
