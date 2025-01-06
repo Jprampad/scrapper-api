@@ -23,26 +23,20 @@ def load_endpoint_docs(filename: str) -> Dict:
     Load endpoint documentation from JSON files.
     Uses paths relative to the script location.
     """
-    try:
-        # Construir ruta completa al archivo JSON
-        json_path = os.path.join(DOCS_DIR, filename)
-        
-        # Verificar que el archivo existe
-        if not os.path.exists(json_path):
-            raise FileNotFoundError(
-                f"Documentation file not found at: {json_path}"
-            )
-            
-        # Cargar y retornar el contenido del JSON
-        with open(json_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-            
-    except Exception as e:
+    # Construir ruta completa al archivo JSON
+    json_path = os.path.join('./docs', filename)
+    
+    # Verificar que el archivo existe
+    if not os.path.exists(json_path):
         raise FileNotFoundError(
-            f"Error loading documentation from {filename}: {str(e)}\n"
-            f"Script directory: {SCRIPT_DIR}\n"
-            f"Docs directory: {DOCS_DIR}"
+            f"Documentation file not found at: {json_path}"
         )
+        
+    # Cargar y retornar el contenido del JSON
+    with open(json_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+        
+
 
 # Cargar la documentación al inicio
 scraping_docs = load_endpoint_docs("scraping_post.json")
