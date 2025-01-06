@@ -1,5 +1,9 @@
-from fastapi import FastAPI
-from routers import scraping
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI(
     title="Xepelin Blog Scraper API",
@@ -30,9 +34,27 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Registrar routers
 app.include_router(scraping.router) 
 
 @app.get("/")
 async def root():
-    return {"message": "API is running, check /docs for more information"}
+    try:
+        # Verificar variables de entorno
+        if not os.getenv("GOOGLE_CREDENTIALS_JSON"):
+            raise HTTPException(status_code=500, detail="Google credentials not configured")
+        if not os.getenv("GOOGLE_SPREADSHEET_ID"):
+            raise HTTPException(status_code=500, detail="Spreadsheet ID not configured")
+            
+        return {"message": "API is running, check /docs for more information""}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
