@@ -7,11 +7,12 @@
       "config": {
         "maxLambdaSize": "15mb",
         "includeFiles": [
-          "docs/endpoints/*.json",
+          "docs/*.json",
           "routers/**/*",
           "models/**/*",
           "services/**/*",
-          "core/**/*"
+          "core/**/*",
+          "scrappers/**/*"
         ]
       }
     }
@@ -24,8 +25,6 @@
   ],
   "env": {
     "PYTHONPATH": ".",
-    "VERCEL_FORCE_NO_BUILD_CACHE": "1",
-    "VERCEL_FORCE_NO_SSO": "1",
-    "VERCEL_FORCE_DISABLE_AUTH": "1"
-    }
+    "VERCEL_FORCE_NO_BUILD_CACHE": "1"
+  }
 } 
