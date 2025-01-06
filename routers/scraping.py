@@ -15,39 +15,38 @@ import os
 
 router = APIRouter(prefix="/scraping", tags=["Scraping"])
 
-# Cargar documentación
-def load_endpoint_docs(filename: str) -> dict:
-    """
-    Carga la documentación directamente desde los archivos JSON.
-    """
-    # Try multiple possible paths
-    possible_paths = [
-        # Local development path
-        Path(__file__).parent.parent / "docs" / "endpoints",
-        # Vercel deployment path
-        Path("/var/task/docs/endpoints"),
-        # Absolute path from project root
-        Path(os.getenv("VERCEL_ROOT", "")) / "docs" / "endpoints",
-        # Current working directory
-        Path.cwd() / "docs" / "endpoints"
-    ]
-    
-    for docs_path in possible_paths:
-        try:
-            file_path = docs_path / filename
-            if file_path.exists():
-                with open(file_path, "r") as f:
-                    return json.load(f)
-        except Exception:
-            continue
-            
-    # If no path worked, raise a more descriptive error
-    raise FileNotFoundError(
-        f"Could not find {filename} in any of these locations: \n" + 
-        "\n".join(str(p) for p in possible_paths)
-    )
+# Obtener el directorio del script actual
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+# Construir ruta al directorio de documentación relativa al script
+DOCS_DIR = os.path.join(os.path.dirname(SCRIPT_DIR), 'docs', 'endpoints')
 
-# Obtener documentación para cada endpoint
+def load_endpoint_docs(filename: str) -> Dict:
+    """
+    Load endpoint documentation from JSON files.
+    Uses paths relative to the script location.
+    """
+    try:
+        # Construir ruta completa al archivo JSON
+        json_path = os.path.join(DOCS_DIR, filename)
+        
+        # Verificar que el archivo existe
+        if not os.path.exists(json_path):
+            raise FileNotFoundError(
+                f"Documentation file not found at: {json_path}"
+            )
+            
+        # Cargar y retornar el contenido del JSON
+        with open(json_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+            
+    except Exception as e:
+        raise FileNotFoundError(
+            f"Error loading documentation from {filename}: {str(e)}\n"
+            f"Script directory: {SCRIPT_DIR}\n"
+            f"Docs directory: {DOCS_DIR}"
+        )
+
+# Cargar la documentación al inicio
 scraping_docs = load_endpoint_docs("scraping_post.json")
 status_docs = load_endpoint_docs("status_get.json")
 queue_docs = load_endpoint_docs("queue_status_get.json")
