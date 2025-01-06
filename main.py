@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
+from routers import scraping
 
 load_dotenv()
 
@@ -55,6 +56,6 @@ async def root():
         if not os.getenv("GOOGLE_SPREADSHEET_ID"):
             raise HTTPException(status_code=500, detail="Spreadsheet ID not configured")
             
-        return {"message": "API is running, check /docs for more information""}
+        return {"message": "API is running, check /docs for more information"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
