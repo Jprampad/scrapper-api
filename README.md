@@ -32,7 +32,6 @@ API REST para extraer artículos del blog de forma asíncrona y escalable.
   - Múltiples threads simultáneos
   - Pool de 5 workers
   - Ideal para volumen medio (15-100 artículos)
-  - Mantiene orden de ejecución
 - 📁 Archivo: `scrapper_optimized.py`
 
 ### 3. Ultra Scraper (Asíncrono)
@@ -44,7 +43,6 @@ API REST para extraer artículos del blog de forma asíncrona y escalable.
   - Cache de URLs y resultados
   - Semáforos para control de concurrencia
   - Timeouts configurables
-  - Manejo de errores robusto
   - uvloop para mejor rendimiento
   - Ideal para grandes volúmenes (>100 artículos)
 - 📁 Archivo: `scrapper_ultra_optimized.py`
@@ -58,7 +56,6 @@ API REST para extraer artículos del blog de forma asíncrona y escalable.
 | Uso de memoria        | Bajo     | Medio     | Alto     |
 | Complejidad           | Simple   | Media     | Alta     |
 | Artículos recomendados| <15      | 15-100    | >100     |
-| Manejo de errores     | Básico   | Medio     | Avanzado |
 | Cache                 | No       | No        | Sí       |
 
 ## 📊 Rendimiento por Modelo
