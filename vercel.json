@@ -3,7 +3,17 @@
   "builds": [
     {
       "src": "main.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "includeFiles": [
+          "docs/endpoints/*.json",
+          "routers/**/*",
+          "models/**/*",
+          "services/**/*",
+          "core/**/*"
+        ]
+      }
     }
   ],
   "routes": [
