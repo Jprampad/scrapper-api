@@ -259,11 +259,6 @@ class UltraOptimizedScraper:
 
     def scrape(self, category: str) -> Optional[List[Dict]]:
         try:
-            uvloop.install()
-        except Exception:
-            logger.warning("uvloop no disponible, usando el loop por defecto")
-        
-        try:
             return asyncio.run(self.scrape_async(category))
         except asyncio.TimeoutError:
             logger.info(f"Timeout en scrape. Retornando {len(self.partial_results)} resultados parciales")
