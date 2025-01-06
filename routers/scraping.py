@@ -15,9 +15,6 @@ import os
 
 router = APIRouter(prefix="/scraping", tags=["Scraping"])
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-DOCS_DIR = os.path.join(SCRIPT_DIR.parent , 'docs', 'endpoints')
-
 def load_endpoint_docs(filename: str) -> Dict:
     """
     Load endpoint documentation from JSON files.
@@ -25,7 +22,7 @@ def load_endpoint_docs(filename: str) -> Dict:
     """
     try:
         # Construir ruta completa al archivo JSON
-        json_path = os.path.join(DOCS_DIR, filename)
+        json_path = Path.cwd() / "docs" / "endpoints" / filename
         
         # Verificar que el archivo existe
         if not os.path.exists(json_path):
