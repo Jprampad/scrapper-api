@@ -19,7 +19,7 @@ def load_endpoint_docs(filename: str) -> dict:
     """
     Carga la documentación directamente desde los archivos JSON.
     """
-    docs_path = Path("docs/endpoints")
+    docs_path = Path(__file__).parent.parent / "docs" / "endpoints"
     with open(docs_path / filename, "r") as f:
         return json.load(f)
 
