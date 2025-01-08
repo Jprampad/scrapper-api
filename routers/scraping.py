@@ -1,7 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from typing import Dict
 import uuid
-from models.requests import ScrapingRequest
+from models.requests import ScrapingRequest, ScraperModel
 from models.responses import ScrapingResponse, ArticleResponse
 from services.queue_service import queue_service
 from core.config import settings
